@@ -1,0 +1,50 @@
+<div class="grid-container">
+  <h1 class="page-title">Configure Form Fields</h1>
+  
+  <kendo-grid
+    [kendoGridBinding]="gridData"
+    [rowReorderable]="true"
+    (rowReorder)="onReOrder($event)"
+    class="custom-grid"
+  >
+    <kendo-grid-rowreorder-column [width]="50">
+      <ng-template kendoGridReorderColumnTemplate>
+        <span class="k-icon k-i-reorder"></span>
+      </ng-template>
+    </kendo-grid-rowreorder-column>
+    
+    <kendo-grid-column field="field" title="Show Field" [width]="120">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div class="checkbox-container">
+          <input
+            type="checkbox"
+            [checked]="dataItem.field"
+            (change)="onFieldChange(dataItem)"
+          />
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      field="fieldName"
+      title=""
+      [width]="180"
+    ></kendo-grid-column>
+
+    <kendo-grid-column field="required" title="Required" [width]="120">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div class="checkbox-container">
+          <input
+            type="checkbox"
+            [checked]="dataItem.required"
+            [disabled]="!dataItem.field"
+            (change)="onRequiredChange(dataItem)"
+          />
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
+
+  <app-button btnName="Save"   (click)="sendRegisterData()">
+  </app-button>
+</div>

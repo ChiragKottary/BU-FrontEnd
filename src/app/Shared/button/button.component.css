@@ -1,0 +1,39 @@
+.btn {
+    padding: 0.5rem 1rem;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .btn:hover {
+    background-color: #090909;
+    transform: translateY(-2px);
+    color: rgb(252, 251, 251);
+  }
+
+.width-auto {
+  width: auto;
+}
+
+.width-full {
+  width: 100%;
+}
+
+.width-half {
+  width: 50%;
+}
+
+.active {
+  background-color: #007bff;  /* or your preferred active color */
+  color: white;
+  border-color: #0056b3;
+}
+
+.active:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}

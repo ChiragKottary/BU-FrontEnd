@@ -1,0 +1,28 @@
+<div class="register-container">
+  <h2>Member Registration</h2>
+  
+  <form [formGroup]="memberForm" (ngSubmit)="onSubmit()" class="member-form">
+    <div *ngFor="let field of RegisterData">
+      <div *ngIf="field.field" class="form-group">
+        <label [for]="field.fieldName">
+          {{field.fieldName}}
+          <span *ngIf="field.required" class="required">*</span>
+        </label>
+        
+        <input 
+          [type]="field.fieldName.toLowerCase() === 'email' ? 'email' : 'text'"
+          [id]="field.fieldName"
+          [formControlName]="field.fieldName"
+          class="form-control"
+          [class.is-invalid]="memberForm.get(field.fieldName)?.touched && memberForm.get(field.fieldName)?.invalid"
+        >
+        
+        <div class="error-message" *ngIf="memberForm.get(field.fieldName)?.touched">
+          {{ getErrorMessage(field.fieldName) }}
+        </div>
+      </div>
+    </div>
+
+    <app-button btnName="Submit" width="full" type="submit" />
+  </form>
+</div>
