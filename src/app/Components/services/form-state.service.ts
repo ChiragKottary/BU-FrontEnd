@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface GridItem {
   field: boolean;
@@ -11,11 +10,8 @@ export interface GridItem {
   providedIn: 'root'
 })
 export class FormStateService {
-  private formFieldsSubject = new BehaviorSubject<GridItem[]>([]);
-  private tempFieldsSubject = new BehaviorSubject<GridItem[]>([]);
-  
-  formFields$ = this.formFieldsSubject.asObservable();
-  tempFields$ = this.tempFieldsSubject.asObservable();
+  private formFields: GridItem[] = [];
+  private tempFields: GridItem[] = [];
 
   private initialFields: GridItem[] = [
     { field: true, fieldName: 'Full Name', required: true },
@@ -25,75 +21,41 @@ export class FormStateService {
   ];
 
   constructor() {
-    this.formFieldsSubject.next([...this.initialFields]);
-    this.tempFieldsSubject.next([...this.initialFields]);
+    this.formFields = [...this.initialFields];
+    this.tempFields = [...this.initialFields];
   }
 
   // Configure page methods
   getTempFields(): GridItem[] {
-    return this.tempFieldsSubject.value;
+    return [...this.tempFields];
   }
 
   reorderTempFields(start: number, end: number): void {
-    const currentFields = [...this.tempFieldsSubject.value];
-    const [removed] = currentFields.splice(start, 1);
-    currentFields.splice(end, 0, removed);
-    this.tempFieldsSubject.next(currentFields);
+    const [removed] = this.tempFields.splice(start, 1);
+    this.tempFields.splice(end, 0, removed);
   }
 
   toggleTempFieldVisibility(fieldName: string): void {
-    const currentFields = [...this.tempFieldsSubject.value];
-    const field = currentFields.find(f => f.fieldName === fieldName);
+    const field = this.tempFields.find(f => f.fieldName === fieldName);
     if (field) {
       field.field = !field.field;
       if (!field.field) field.required = false;
-      this.tempFieldsSubject.next(currentFields);
     }
   }
 
   toggleTempFieldRequired(fieldName: string): void {
-    const currentFields = [...this.tempFieldsSubject.value];
-    const field = currentFields.find(f => f.fieldName === fieldName);
+    const field = this.tempFields.find(f => f.fieldName === fieldName);
     if (field && field.field) {
       field.required = !field.required;
-      this.tempFieldsSubject.next(currentFields);
     }
   }
 
-  // Save changes from configure to register
   saveChanges(): void {
-    const currentTempFields = [...this.tempFieldsSubject.value];
-    this.formFieldsSubject.next(currentTempFields);
+    this.formFields = [...this.tempFields];
   }
 
-  // Register page methods
-  getFormFields(): Observable<GridItem[]> {
-    return this.formFields$;
-  }
 
-  reorderFields(start: number, end: number): void {
-    const currentFields = [...this.formFieldsSubject.value];
-    const [removed] = currentFields.splice(start, 1);
-    currentFields.splice(end, 0, removed);
-    this.formFieldsSubject.next(currentFields);
-  }
-
-  toggleFieldVisibility(fieldName: string): void {
-    const currentFields = [...this.formFieldsSubject.value];
-    const field = currentFields.find(f => f.fieldName === fieldName);
-    if (field) {
-      field.field = !field.field;
-      if (!field.field) field.required = false;
-      this.formFieldsSubject.next(currentFields);
-    }
-  }
-
-  toggleFieldRequired(fieldName: string): void {
-    const currentFields = [...this.formFieldsSubject.value];
-    const field = currentFields.find(f => f.fieldName === fieldName);
-    if (field && field.field) {
-      field.required = !field.required;
-      this.formFieldsSubject.next(currentFields);
-    }
+  getFormFields(): GridItem[] {
+    return [...this.formFields];
   }
 } 

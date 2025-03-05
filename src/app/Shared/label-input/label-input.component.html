@@ -1,9 +1,11 @@
 <div class="form-field">
-    <label>{{FieldName}}</label> 
+    <kendo-label [text]="FieldName">
     <ng-container [ngSwitch]="inputType">
-        <input *ngSwitchCase="'text'" type="text" [formControl]="control">
-        <textarea *ngSwitchCase="'textarea'" [formControl]="control" rows="4"></textarea>
+        <kendo-textbox [placeholder]="FieldName" *ngSwitchCase="'text'" type="text" [formControl]="control"/>
+        <!-- <input > -->
+        <kendo-textarea [placeholder]="FieldName" *ngSwitchCase="'textarea'" [formControl]="control" [rows]=4/>
     </ng-container>
+</kendo-label>
     <div class="error-container" *ngIf="control.touched && control.errors">
         <div class="error-message" *ngIf="control.errors['required']">
             {{FieldName}} is required
@@ -19,3 +21,6 @@
         </div>
     </div>
  </div>
+ 
+    
+ 

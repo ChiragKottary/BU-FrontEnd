@@ -10,6 +10,7 @@ import { RegisterModule } from './Components/register/register.module';
 import { ButtonModule } from './Shared/button/button.module';
 import { LabelInputModule } from './Shared/label-input/label-input.module';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +23,8 @@ import { LabelInputModule } from './Shared/label-input/label-input.module';
     BrowserAnimationsModule,
     RegisterModule,
     ButtonModule,
-    LabelInputModule
+    LabelInputModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

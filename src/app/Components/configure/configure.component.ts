@@ -1,17 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormStateService, GridItem } from '../services/form-state.service';
 import { RowReorderEvent } from '@progress/kendo-angular-grid';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-configure',
   templateUrl: './configure.component.html',
   styleUrls: ['./configure.component.css']
 })
-export class ConfigureComponent implements OnInit, OnDestroy {
+export class ConfigureComponent implements OnInit {
   public gridData: GridItem[] = [];
-  private subscription: Subscription = new Subscription();
 
   constructor(
     private router: Router,
@@ -19,15 +17,11 @@ export class ConfigureComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription.add(
-      this.formStateService.tempFields$.subscribe(fields => {
-        this.gridData = fields;
-      })
-    );
+    this.loadGridData();
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  private loadGridData(): void {
+    this.gridData = this.formStateService.getTempFields();
   }
 
   public onReOrder(event: RowReorderEvent): void {
@@ -36,15 +30,18 @@ export class ConfigureComponent implements OnInit, OnDestroy {
 
     if (start !== undefined && end !== undefined) {
       this.formStateService.reorderTempFields(start, end);
+      this.loadGridData();
     }
   }
 
   public onFieldChange(dataItem: GridItem): void {
     this.formStateService.toggleTempFieldVisibility(dataItem.fieldName);
+    this.loadGridData();
   }
 
   public onRequiredChange(dataItem: GridItem): void {
     this.formStateService.toggleTempFieldRequired(dataItem.fieldName);
+    this.loadGridData();
   }
 
   sendRegisterData() {

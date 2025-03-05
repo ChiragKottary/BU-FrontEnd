@@ -1,26 +1,36 @@
 .form-field {
     margin-bottom: 1.5rem;
-}
-
-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: #333;
-}
-
-input, textarea {
     width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
 }
 
-input:focus, textarea:focus {
+:host ::ng-deep .k-label {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+:host ::ng-deep .k-textbox,
+:host ::ng-deep .k-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+:host ::ng-deep .k-textbox:hover,
+:host ::ng-deep .k-textarea:hover {
+    border-color: #cbd5e0;
+}
+
+:host ::ng-deep .k-textbox:focus,
+:host ::ng-deep .k-textarea:focus {
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
     outline: none;
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
 
 .error-container {
@@ -28,20 +38,31 @@ input:focus, textarea:focus {
 }
 
 .error-message {
-    color: #dc3545;
+    color: #e53e3e;
     font-size: 0.875rem;
     margin-top: 0.25rem;
-    padding: 0.25rem 0;
-    animation: fadeIn 0.3s ease-in;
+    display: flex;
+    align-items: center;
+    animation: slideIn 0.2s ease-in-out;
 }
 
-@keyframes fadeIn {
+@keyframes slideIn {
     from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: translateY(-5px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+:host ::ng-deep .k-textbox.ng-invalid.ng-touched,
+:host ::ng-deep .k-textarea.ng-invalid.ng-touched {
+    border-color: #e53e3e;
+}
+
+:host ::ng-deep .k-textbox.ng-invalid.ng-touched:focus,
+:host ::ng-deep .k-textarea.ng-invalid.ng-touched:focus {
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.15);
 }
