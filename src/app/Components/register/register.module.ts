@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NotificationModule } from '@progress/kendo-angular-notification';
 import { RegisterComponent } from './register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from '../../Shared/button/button.module';
@@ -12,7 +13,8 @@ import { FormStateService } from '../services/form-state.service';
     CommonModule,
     ReactiveFormsModule,
     ButtonModule,
-    LabelInputModule
+    LabelInputModule,
+    NotificationModule
   ],
   providers: [FormStateService],
   exports: [

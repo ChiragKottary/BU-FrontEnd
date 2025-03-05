@@ -1,5 +1,8 @@
+<div class="page-title">
+  <h1>Configure Form Fields</h1>
+</div>
+
 <div class="grid-container">
-  <h1 class="page-title">Configure Form Fields</h1>
   
   <kendo-grid
     [kendoGridBinding]="gridData"
@@ -9,7 +12,7 @@
   >
     <kendo-grid-rowreorder-column [width]="50">
       <ng-template kendoGridReorderColumnTemplate>
-        <span class="k-icon k-i-reorder"></span>
+         <span class=""></span> 
       </ng-template>
     </kendo-grid-rowreorder-column>
     
@@ -45,6 +48,6 @@
     </kendo-grid-column>
   </kendo-grid>
 
-  <app-button btnName="Save"   (click)="sendRegisterData()">
+  <app-button btnName="Save Changes"   (click)="sendRegisterData()">
   </app-button>
 </div>

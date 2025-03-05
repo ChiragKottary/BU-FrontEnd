@@ -1,24 +1,21 @@
 .form-field {
-    margin-bottom: 1.5rem;
-    width: 100%;
+    margin-bottom: 1rem;
 }
 
 :host ::ng-deep .k-label {
     font-weight: 500;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #2d3748;
-    margin-bottom: 0.5rem;
-    display: block;
+    margin-bottom: 0.25rem;
 }
 
 :host ::ng-deep .k-textbox,
 :host ::ng-deep .k-textarea {
     width: 100%;
-    padding: 0.75rem;
-    border-radius: 8px;
+    padding: 0.5rem;
+    border-radius: 6px;
     border: 1px solid #e2e8f0;
-    transition: all 0.3s ease;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
 :host ::ng-deep .k-textbox:hover,
@@ -34,16 +31,13 @@
 }
 
 .error-container {
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
 }
 
 .error-message {
     color: #e53e3e;
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     margin-top: 0.25rem;
-    display: flex;
-    align-items: center;
-    animation: slideIn 0.2s ease-in-out;
 }
 
 @keyframes slideIn {

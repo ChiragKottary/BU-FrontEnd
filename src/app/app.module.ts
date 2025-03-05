@@ -9,6 +9,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegisterModule } from './Components/register/register.module';
 import { ButtonModule } from './Shared/button/button.module';
 import { LabelInputModule } from './Shared/label-input/label-input.module';
+import { NotificationModule } from '@progress/kendo-angular-notification';
+
 
 
 @NgModule({
@@ -24,6 +26,7 @@ import { LabelInputModule } from './Shared/label-input/label-input.module';
     RegisterModule,
     ButtonModule,
     LabelInputModule,
+    NotificationModule,
     
   ],
   providers: [],

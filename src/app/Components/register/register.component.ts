@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotificationService } from '@progress/kendo-angular-notification';
 import { FormStateService, GridItem } from '../services/form-state.service';
 
 @Component({
@@ -14,7 +15,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private formStateService: FormStateService
+    private formStateService: FormStateService,
+    private notificationService: NotificationService
   ) {
     this.memberForm = this.fb.group({});
   }
@@ -73,6 +75,16 @@ export class RegisterComponent implements OnInit {
   onSubmit(): void {
     if (this.memberForm.valid) {
       console.log('Form submitted:', this.memberForm.value);
+      
+      this.notificationService.show({
+        content: 'Registration Successful!',
+        cssClass: 'success-notification',
+        animation: { type: 'slide', duration: 400 },
+        position: { horizontal: 'center', vertical: 'top' },
+        type: { style: 'success', icon: true },
+        closable: true,
+        hideAfter: 3000
+      });
     } else {
       this.markFormGroupTouched(this.memberForm);
     }

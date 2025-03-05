@@ -18,7 +18,14 @@ kendo-grid {
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
+.page-title {
+  font-size: 1.75rem;
+  color: #000000;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 600;
+  padding-top: 2rem;
+}
 .custom-grid {
   width: 100%;
   margin-bottom: 2rem;
