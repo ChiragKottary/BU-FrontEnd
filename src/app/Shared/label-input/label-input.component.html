@@ -1,1 +1,21 @@
-<p>label-input works!</p>
+<div class="form-field">
+    <label>{{FieldName}}</label> 
+    <ng-container [ngSwitch]="inputType">
+        <input *ngSwitchCase="'text'" type="text" [formControl]="control">
+        <textarea *ngSwitchCase="'textarea'" [formControl]="control" rows="4"></textarea>
+    </ng-container>
+    <div class="error-container" *ngIf="control.touched && control.errors">
+        <div class="error-message" *ngIf="control.errors['required']">
+            {{FieldName}} is required
+        </div>
+        <div class="error-message" *ngIf="control.errors['minlength']">
+            {{FieldName}} must be at least {{control.errors['minlength'].requiredLength}} characters
+        </div>
+        <div class="error-message" *ngIf="control.errors['pattern']">
+            Please enter a valid {{FieldName.toLowerCase()}}
+        </div>
+        <div class="error-message" *ngIf="control.errors['email']">
+            Please enter a valid email address
+        </div>
+    </div>
+ </div>

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-label-input',
@@ -6,5 +8,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./label-input.component.css']
 })
 export class LabelInputComponent {
-
+  @Input({required:true}) control!: FormControl;
+  @Input({required:true}) FieldName!: string;
+  @Input() inputType: 'text' | 'textarea' = 'text';
+  constructor(){
+    
+  }
 }

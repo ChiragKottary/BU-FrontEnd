@@ -15,13 +15,14 @@ interface GridItem {
 export class RegisterComponent implements OnInit {
   RegisterData: GridItem[] = [];
   memberForm: FormGroup;
+  fieldOrder: string[] = [];
 
   constructor(private fb: FormBuilder) {
     this.memberForm = this.fb.group({});
   }
 
   ngOnInit() {
-    // Get data from localStorage
+
     const savedData = localStorage.getItem('registerData');
     if (savedData) {
       this.RegisterData = JSON.parse(savedData);
@@ -30,22 +31,34 @@ export class RegisterComponent implements OnInit {
   }
 
   private initializeForm() {
-    const formControls: any = {};
+    const formControls: any = {}; 
+    this.fieldOrder = [];
     
-    this.RegisterData.forEach(field => {
-      if (field.field) { // Only add controls for visible fields
-        formControls[field.fieldName] = ['', field.required ? [Validators.required] : []];
+    this.RegisterData.forEach(field => { 
+      if (field.field) { 
+        console.log(field);
         
-        // Add specific validations based on field name
+        this.fieldOrder.push(field.fieldName);
+        const validators = [];
+        if (field.required) {
+          validators.push(Validators.required);
+        }
+  
+        if (field.fieldName === 'Full Name') {
+          validators.push(Validators.minLength(3), Validators.pattern(/^[a-zA-Z]+$/));
+        }
+        if (field.fieldName.toLowerCase() === 'age') {
+          validators.push(Validators.pattern(/^(0*(?:[1-9][0-9]?|1[0-4][0-9]|150))$/));
+        }
         if (field.fieldName.toLowerCase() === 'email') {
-          formControls[field.fieldName].push(Validators.email);
+          validators.push(Validators.email);
         }
-        if (field.fieldName.toLowerCase() === 'mobile') {
-          formControls[field.fieldName].push(Validators.pattern('^[0-9]{10}$'));
-        }
+        
+        formControls[field.fieldName] = ['', validators];
       }
     });
-
+    
+    console.log(formControls);
     this.memberForm = this.fb.group(formControls);
   }
 
@@ -67,14 +80,14 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  getErrorMessage(fieldName: string): string {
-    const control = this.memberForm.get(fieldName);
-    if (!control || !control.errors || !control.touched) return '';
+  // getErrorMessage(fieldName: string): string {
+  //   const control = this.memberForm.get(fieldName);
+  //   if (!control || !control.errors || !control.touched) return '';
 
-    if (control.errors['required']) return `${fieldName} is required`;
-    if (control.errors['email']) return 'Invalid email format';
-    if (control.errors['pattern']) return 'Invalid format';
+  //   if (control.errors['required']) return `${fieldName} is required`;
+  //   if (control.errors['email']) return 'Invalid email format';
+  //   if (control.errors['pattern']) return 'Invalid format';
 
-    return '';
-  }
+  //   return '';
+  // }
 }

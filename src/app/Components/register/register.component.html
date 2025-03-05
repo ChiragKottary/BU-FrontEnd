@@ -1,28 +1,27 @@
 <div class="register-container">
-  <h2>Member Registration</h2>
+  <div class="register-header">
+    <h1>Member Registration</h1>
+  </div>
   
-  <form [formGroup]="memberForm" (ngSubmit)="onSubmit()" class="member-form">
-    <div *ngFor="let field of RegisterData">
-      <div *ngIf="field.field" class="form-group">
-        <label [for]="field.fieldName">
-          {{field.fieldName}}
-          <span *ngIf="field.required" class="required">*</span>
-        </label>
-        
-        <input 
-          [type]="field.fieldName.toLowerCase() === 'email' ? 'email' : 'text'"
-          [id]="field.fieldName"
-          [formControlName]="field.fieldName"
-          class="form-control"
-          [class.is-invalid]="memberForm.get(field.fieldName)?.touched && memberForm.get(field.fieldName)?.invalid"
-        >
-        
-        <div class="error-message" *ngIf="memberForm.get(field.fieldName)?.touched">
-          {{ getErrorMessage(field.fieldName) }}
+  <form [formGroup]="memberForm" (ngSubmit)="onSubmit()">
+    <div class="form-container">
+      <ng-container *ngIf="memberForm">
+        <div *ngFor="let fieldName of fieldOrder">
+          <app-label-input 
+            [control]="$any(memberForm.get(fieldName))" 
+            [FieldName]="fieldName"
+            [inputType]="fieldName === 'Address' ? 'textarea' : 'text'"
+          />
         </div>
-      </div>
+      </ng-container>
+    
     </div>
 
-    <app-button btnName="Submit" width="full" type="submit" />
+    <div class="button-container">
+      <app-button 
+        width="full"
+        type="submit" 
+        btnName="Submit"/>
+    </div>
   </form>
 </div>

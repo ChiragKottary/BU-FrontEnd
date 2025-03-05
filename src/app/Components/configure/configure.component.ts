@@ -9,9 +9,10 @@ interface GridItem {
 }
 
 const sampleCustomers: GridItem[] = [
-  { field: true, fieldName: 'name', required: true },
-  { field: false, fieldName: 'age', required: false },
-  { field: true, fieldName: 'email', required: true },
+  { field: true, fieldName: 'Full Name', required: true },
+  { field: true, fieldName: 'Age', required: false },
+  { field: true, fieldName: 'Email', required: true },
+  { field: true, fieldName: 'Address',required: true }
 ];
 
 @Component({

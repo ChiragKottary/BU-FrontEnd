@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -7,7 +7,8 @@ import { Component, Input } from '@angular/core';
 })
 export class ButtonComponent {
   @Input() btnName: string = '';
-  @Input() size: 'small' | 'medium' | 'large' = 'medium';
   @Input() width: 'auto' | 'full' | 'half' = 'auto';
   @Input() active: boolean = false;
+  @Input() type: 'button' | 'submit' | 'reset' = 'button';
+  @Output() onClick = new EventEmitter<MouseEvent>();
 }
