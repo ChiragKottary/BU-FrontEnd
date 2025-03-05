@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-interface GridItem {
-  field: boolean;
-  fieldName: string;
-  required: boolean;
-}
+import { FormStateService, GridItem } from '../services/form-state.service';
 
 @Component({
   selector: 'app-register',
@@ -13,39 +8,39 @@ interface GridItem {
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  RegisterData: GridItem[] = [];
   memberForm: FormGroup;
   fieldOrder: string[] = [];
+  formFields: GridItem[] = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private formStateService: FormStateService
+  ) {
     this.memberForm = this.fb.group({});
   }
 
   ngOnInit() {
-
-    const savedData = localStorage.getItem('registerData');
-    if (savedData) {
-      this.RegisterData = JSON.parse(savedData);
+    this.formStateService.getFormFields().subscribe(fields => {
+      this.formFields = fields;
       this.initializeForm();
-    }
+    });
   }
 
   private initializeForm() {
-    const formControls: any = {}; 
+    const formControls: any = {};
     this.fieldOrder = [];
-    
-    this.RegisterData.forEach(field => { 
-      if (field.field) { 
-        console.log(field);
-        
+
+    this.formFields.forEach(field => {
+      if (field.field) {
         this.fieldOrder.push(field.fieldName);
         const validators = [];
+        
         if (field.required) {
           validators.push(Validators.required);
         }
-  
+
         if (field.fieldName === 'Full Name') {
-          validators.push(Validators.minLength(3), Validators.pattern(/^[a-zA-Z]+$/));
+          validators.push(Validators.minLength(3), Validators.pattern(/^[a-zA-Z\s]+$/));
         }
         if (field.fieldName.toLowerCase() === 'age') {
           validators.push(Validators.pattern(/^(0*(?:[1-9][0-9]?|1[0-4][0-9]|150))$/));
@@ -53,12 +48,11 @@ export class RegisterComponent implements OnInit {
         if (field.fieldName.toLowerCase() === 'email') {
           validators.push(Validators.email);
         }
-        
+
         formControls[field.fieldName] = ['', validators];
       }
     });
-    
-    console.log(formControls);
+
     this.memberForm = this.fb.group(formControls);
   }
 
