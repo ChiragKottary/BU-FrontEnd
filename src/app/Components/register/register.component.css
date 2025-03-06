@@ -109,13 +109,36 @@ label {
 }
 
 :host ::ng-deep .success-notification {
-  font-size: 1rem;
-  padding: 1rem;
-  border-radius: 8px;
+  animation: fadeInOut 2s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+:host ::ng-deep .k-notification-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 :host ::ng-deep .k-notification-container {
-  z-index: 10000;
+  margin-top: 20px;
 }
 
 :host ::ng-deep .k-notification-content {
@@ -132,5 +155,19 @@ label {
 
 :host ::ng-deep .k-notification-success .k-notification-content {
   border-color: #059669;
+}
+
+.no-fields-message {
+  text-align: center;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px dashed #cbd5e0;
+}
+
+.no-fields-message p {
+  color: #64748b;
+  font-size: 1.1rem;
+  margin: 0;
 }
 
