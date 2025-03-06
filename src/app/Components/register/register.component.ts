@@ -80,12 +80,21 @@ export class RegisterComponent implements OnInit {
       
       this.notificationService.show({
         content: 'Registration Successful!',
-        cssClass: 'success-notification',
-        animation: { type: 'slide', duration: 400 },
-        position: { horizontal: 'center', vertical: 'top' },
-        type: { style: 'success', icon: true },
-        closable: true,
-        hideAfter: 3000
+        cssClass: 'success-notification fade-out',
+        animation: { 
+          type: 'fade',
+          duration: 400
+        },
+        position: { 
+          horizontal: 'center', 
+          vertical: 'top' 
+        },
+        type: { 
+          style: 'success', 
+          icon: true 
+        },
+        closable: false,
+        hideAfter: 2000
       });
       this.memberForm.reset();
     } else {
