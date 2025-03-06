@@ -59,9 +59,11 @@ export class RegisterComponent implements OnInit {
           Validators.pattern(/^[a-zA-Z\s]+$/)
         );
         break;
-      case 'Age':
+      case 'Phone Number':
         validators.push(
-          Validators.pattern(/^(0*(?:[1-9][0-9]?|1[0-4][0-9]|150))$/)
+          Validators.pattern(/^(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)\s?)?(?:\d{1,4}[-\s]?){1,}(?:\d{1,4})$/),
+          Validators.minLength(10),
+          Validators.maxLength(10)
         );
         break;
       case 'Email':
@@ -85,6 +87,7 @@ export class RegisterComponent implements OnInit {
         closable: true,
         hideAfter: 3000
       });
+      this.memberForm.reset();
     } else {
       this.markFormGroupTouched(this.memberForm);
     }

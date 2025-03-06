@@ -15,7 +15,7 @@ export class FormStateService {
 
   private initialFields: GridItem[] = [
     { field: true, fieldName: 'Full Name', required: true },
-    { field: true, fieldName: 'Age', required: false },
+    { field: true, fieldName: 'Phone Number', required: false },
     { field: true, fieldName: 'Email', required: true },
     { field: true, fieldName: 'Address', required: true }
   ];

@@ -13,6 +13,9 @@
         <div class="error-message" *ngIf="control.errors['minlength']">
             {{FieldName}} must be at least {{control.errors['minlength'].requiredLength}} characters
         </div>
+        <div class="error-message" *ngIf="control.errors['maxlength']">
+            {{FieldName}} cannot exceed {{control.errors['maxlength'].requiredLength}} characters
+        </div>
         <div class="error-message" *ngIf="control.errors['pattern']">
             Please enter a valid {{FieldName.toLowerCase()}}
         </div>
