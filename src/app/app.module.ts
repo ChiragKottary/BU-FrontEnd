@@ -3,13 +3,15 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LabelInputComponent } from './Shared/label-input/label-input.component';
 import { HeaderModule } from './Components/header/header.module';
 import { ConfigureModule } from './Components/configure/configure.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegisterModule } from './Components/register/register.module';
 import { ButtonModule } from './Shared/button/button.module';
 import { LabelInputModule } from './Shared/label-input/label-input.module';
+import { NotificationModule } from '@progress/kendo-angular-notification';
+
+
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { LabelInputModule } from './Shared/label-input/label-input.module';
     BrowserAnimationsModule,
     RegisterModule,
     ButtonModule,
-    LabelInputModule
+    LabelInputModule,
+    NotificationModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

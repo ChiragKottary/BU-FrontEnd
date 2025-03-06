@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-interface GridItem {
-  field: boolean;
-  fieldName: string;
-  required: boolean;
-}
+import { NotificationService } from '@progress/kendo-angular-notification';
+import { FormStateService, GridItem } from '../services/form-state.service';
 
 @Component({
   selector: 'app-register',
@@ -13,65 +9,91 @@ interface GridItem {
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  RegisterData: GridItem[] = [];
   memberForm: FormGroup;
   fieldOrder: string[] = [];
+  formFields: GridItem[] = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private formStateService: FormStateService,
+    private notificationService: NotificationService
+  ) {
     this.memberForm = this.fb.group({});
   }
 
   ngOnInit() {
-
-    const savedData = localStorage.getItem('registerData');
-    if (savedData) {
-      this.RegisterData = JSON.parse(savedData);
-      this.initializeForm();
-    }
+    this.loadFormFields();
   }
 
-  private initializeForm() {
-    const formControls: any = {}; 
+  private loadFormFields(): void {
+    this.formFields = this.formStateService.getFormFields();
+    this.initializeForm();
+  }
+
+  private initializeForm(): void {
+    const formControls: any = {};
     this.fieldOrder = [];
-    
-    this.RegisterData.forEach(field => { 
-      if (field.field) { 
-        console.log(field);
-        
+
+    this.formFields.forEach(field => {
+      if (field.field) {
         this.fieldOrder.push(field.fieldName);
-        const validators = [];
-        if (field.required) {
-          validators.push(Validators.required);
-        }
-  
-        if (field.fieldName === 'Full Name') {
-          validators.push(Validators.minLength(3), Validators.pattern(/^[a-zA-Z]+$/));
-        }
-        if (field.fieldName.toLowerCase() === 'age') {
-          validators.push(Validators.pattern(/^(0*(?:[1-9][0-9]?|1[0-4][0-9]|150))$/));
-        }
-        if (field.fieldName.toLowerCase() === 'email') {
-          validators.push(Validators.email);
-        }
-        
+        const validators = this.getValidators(field);
         formControls[field.fieldName] = ['', validators];
       }
     });
-    
-    console.log(formControls);
+
     this.memberForm = this.fb.group(formControls);
   }
 
-  onSubmit() {
+  private getValidators(field: GridItem): any[] {
+    const validators = [];
+    
+    if (field.required) {
+      validators.push(Validators.required);
+    }
+
+    switch (field.fieldName) {
+      case 'Full Name':
+        validators.push(
+          Validators.minLength(3),
+          Validators.pattern(/^[a-zA-Z\s]+$/)
+        );
+        break;
+      case 'Phone Number':
+        validators.push(
+          Validators.pattern(/^(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)\s?)?(?:\d{1,4}[-\s]?){1,}(?:\d{1,4})$/),
+          Validators.minLength(10),
+          Validators.maxLength(10)
+        );
+        break;
+      case 'Email':
+        validators.push(Validators.email);
+        break;
+    }
+
+    return validators;
+  }
+
+  onSubmit(): void {
     if (this.memberForm.valid) {
       console.log('Form submitted:', this.memberForm.value);
-      // Handle form submission
+      
+      this.notificationService.show({
+        content: 'Registration Successful!',
+        cssClass: 'success-notification',
+        animation: { type: 'slide', duration: 400 },
+        position: { horizontal: 'center', vertical: 'top' },
+        type: { style: 'success', icon: true },
+        closable: true,
+        hideAfter: 3000
+      });
+      this.memberForm.reset();
     } else {
       this.markFormGroupTouched(this.memberForm);
     }
   }
 
-  private markFormGroupTouched(formGroup: FormGroup) {
+  private markFormGroupTouched(formGroup: FormGroup): void {
     Object.values(formGroup.controls).forEach(control => {
       control.markAsTouched();
       if (control instanceof FormGroup) {
@@ -79,15 +101,4 @@ export class RegisterComponent implements OnInit {
       }
     });
   }
-
-  // getErrorMessage(fieldName: string): string {
-  //   const control = this.memberForm.get(fieldName);
-  //   if (!control || !control.errors || !control.touched) return '';
-
-  //   if (control.errors['required']) return `${fieldName} is required`;
-  //   if (control.errors['email']) return 'Invalid email format';
-  //   if (control.errors['pattern']) return 'Invalid format';
-
-  //   return '';
-  // }
 }

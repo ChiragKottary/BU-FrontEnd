@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NotificationModule } from '@progress/kendo-angular-notification';
 import { RegisterComponent } from './register.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ButtonModule } from 'src/app/Shared/button/button.module';
-import { LabelInputModule } from 'src/app/Shared/label-input/label-input.module';
+import { ButtonModule } from '../../Shared/button/button.module';
+import { LabelInputModule } from '../../Shared/label-input/label-input.module';
+import { FormStateService } from '../services/form-state.service';
 
 @NgModule({
   declarations: [RegisterComponent],
@@ -11,8 +13,10 @@ import { LabelInputModule } from 'src/app/Shared/label-input/label-input.module'
     CommonModule,
     ReactiveFormsModule,
     ButtonModule,
-    LabelInputModule
+    LabelInputModule,
+    NotificationModule
   ],
+  providers: [FormStateService],
   exports: [
     RegisterComponent
   ]

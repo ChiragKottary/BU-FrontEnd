@@ -7,6 +7,7 @@
     cursor: pointer;
     font-weight: 500;
     transition: all 0.3s ease;
+    border: 2px solid #000000;
   }
 
   .btn:hover {
@@ -28,12 +29,12 @@
 }
 
 .active {
-  background-color: #007bff;  /* or your preferred active color */
+  background-color: #000000;  /* or your preferred active color */
   color: white;
-  border-color: #0056b3;
+  border-color: #000000;
 }
 
 .active:hover {
-  background-color: #0056b3;
-  border-color: #004085;
+  background-color: #000000;
+  border-color: #8492a1;
 }
