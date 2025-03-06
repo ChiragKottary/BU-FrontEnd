@@ -2,7 +2,7 @@
     <kendo-label [text]="FieldName">
     <ng-container [ngSwitch]="inputType">
         <kendo-textbox [placeholder]="FieldName" *ngSwitchCase="'text'" type="text" [formControl]="control"/>
-        <!-- <input > -->
+      
         <kendo-textarea [placeholder]="FieldName" *ngSwitchCase="'textarea'" [formControl]="control" [rows]=4/>
     </ng-container>
 </kendo-label>
@@ -21,6 +21,15 @@
         </div>
         <div class="error-message" *ngIf="control.errors['email']">
             Please enter a valid email address
+        </div>
+        <div class="error-message" *ngIf="control.errors['nameExists']">
+            This name is already registered
+        </div>
+        <div class="error-message" *ngIf="control.errors['phoneExists']">
+            This phone number is already registered
+        </div>
+        <div class="error-message" *ngIf="control.errors['emailExists']">
+            This email is already registered
         </div>
     </div>
  </div>

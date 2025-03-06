@@ -54,8 +54,46 @@ export class FormStateService {
     this.formFields = [...this.tempFields];
   }
 
-
   getFormFields(): GridItem[] {
     return [...this.formFields];
+  }
+
+  // Storage methods
+  saveToLocalStorage(formData: any): void {
+    const existingData = this.getFromLocalStorage();
+    existingData.push({
+      ...formData,
+      submittedAt: new Date().toISOString()
+    });
+    localStorage.setItem('registeredMembers', JSON.stringify(existingData));
+  }
+
+  getFromLocalStorage(): any[] {
+    return JSON.parse(localStorage.getItem('registeredMembers') || '[]');
+  }
+
+  // Validation methods
+  checkNameExists(name: string): boolean {
+    if (!name || name.trim() === '') return false;
+    const existingData = this.getFromLocalStorage();
+    return existingData.some(member => 
+      member['Full Name']?.toLowerCase() === name.toLowerCase()
+    );
+  }
+
+  checkPhoneExists(phone: string): boolean {
+    if (!phone || phone.trim() === '') return false;
+    const existingData = this.getFromLocalStorage();
+    return existingData.some(member => 
+      member['Phone Number'] === phone
+    );
+  }
+
+  checkEmailExists(email: string): boolean {
+    if (!email || email.trim() === '') return false;
+    const existingData = this.getFromLocalStorage();
+    return existingData.some(member => 
+      member['Email']?.toLowerCase() === email.toLowerCase()
+    );
   }
 } 
