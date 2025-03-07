@@ -8,10 +8,10 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./label-input.component.css']
 })
 export class LabelInputComponent {
-  @Input({required:true}) control!: FormControl;
-  @Input({required:true}) FieldName!: string;
+  @Input({ required: true }) control!: FormControl;
+  @Input({ required: true }) FieldName!: string;
   @Input() inputType: 'text' | 'textarea' = 'text';
-  constructor(){
-    
+  constructor() {
+
   }
 }

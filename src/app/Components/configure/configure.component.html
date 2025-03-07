@@ -48,6 +48,8 @@
     </kendo-grid-column>
   </kendo-grid>
 
-  <app-button btnName="Save Changes"   (click)="sendRegisterData()">
-  </app-button>
+  <div class="button-container">
+    <app-button btnName="Save Changes" (click)="sendRegisterData()"></app-button>
+    <app-button btnName="Cancel" (click)="cancelChanges()"></app-button>
+  </div>
 </div>

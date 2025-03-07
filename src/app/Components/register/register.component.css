@@ -157,6 +157,15 @@ label {
   border-color: #059669;
 }
 
+:host ::ng-deep .k-notification-error {
+  background-color: #EF4444;
+  color: white;
+}
+
+:host ::ng-deep .k-notification-error .k-notification-content {
+  border-color: #DC2626;
+}
+
 .no-fields-message {
   text-align: center;
   padding: 2rem;

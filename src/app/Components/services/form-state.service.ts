@@ -12,6 +12,7 @@ export interface GridItem {
 export class FormStateService {
   private formFields: GridItem[] = [];
   private tempFields: GridItem[] = [];
+  private registeredMembers: any[] = [];
 
   private initialFields: GridItem[] = [
     { field: true, fieldName: 'Full Name', required: true },
@@ -21,11 +22,21 @@ export class FormStateService {
   ];
 
   constructor() {
-    this.formFields = [...this.initialFields];
-    this.tempFields = [...this.initialFields];
+    this.resetToDefault();
   }
 
-  // Configure page methods
+  private resetToDefault(): void {
+    const defaultFields: GridItem[] = [
+      { field: true, fieldName: 'Full Name', required: true },
+      { field: true, fieldName: 'Phone Number', required: true },
+      { field: true, fieldName: 'Email', required: true },
+      { field: true, fieldName: 'Address', required: false }
+    ];
+    this.formFields = [...defaultFields];
+    this.tempFields = JSON.parse(JSON.stringify(defaultFields));
+  }
+
+  // Methods for temporary state (Configure page)
   getTempFields(): GridItem[] {
     return [...this.tempFields];
   }
@@ -39,7 +50,9 @@ export class FormStateService {
     const field = this.tempFields.find(f => f.fieldName === fieldName);
     if (field) {
       field.field = !field.field;
-      if (!field.field) field.required = false;
+      if (!field.field) {
+        field.required = false;
+      }
     }
   }
 
@@ -50,12 +63,56 @@ export class FormStateService {
     }
   }
 
+  // Save changes from temporary to permanent state
   saveChanges(): void {
-    this.formFields = [...this.tempFields];
+    this.formFields = JSON.parse(JSON.stringify(this.tempFields));
   }
 
+  // Cancel changes and reset temporary state
+  cancelChanges(): void {
+    this.tempFields = JSON.parse(JSON.stringify(this.formFields));
+  }
 
+  // Methods for permanent state (Register page)
   getFormFields(): GridItem[] {
-    return [...this.formFields];
+    return this.formFields;
+  }
+
+  updateFormFields(fields: GridItem[]): void {
+    this.formFields = fields;
+  }
+
+  // Storage methods
+  saveRegisteredMember(formData: any): void {
+    this.registeredMembers.push({
+      ...formData,
+      submittedAt: new Date().toISOString()
+    });
+  }
+
+  getRegisteredMembers(): any[] {
+    return this.registeredMembers;
+  }
+
+  // Validation methods
+  checkNameExists(name: string): boolean {
+    if (!name || name.trim() === '') return false;
+    return this.registeredMembers.some(member =>
+      member['Full Name']?.toLowerCase() === name.toLowerCase()
+    );
+  }
+
+  checkPhoneExists(phone: string): boolean {
+    if (!phone || phone.trim() === '') return false;
+    return this.registeredMembers.some(member =>
+      member['Phone Number'] === phone
+    );
+  }
+
+  checkEmailExists(email: string): boolean {
+    if (!email || email.trim() === '') return false;
+    return this.registeredMembers.some(member =>
+      member['Email']?.toLowerCase() === email.toLowerCase()
+    );
   }
 } 

@@ -2,11 +2,11 @@
     <kendo-label [text]="FieldName">
     <ng-container [ngSwitch]="inputType">
         <kendo-textbox [placeholder]="FieldName" *ngSwitchCase="'text'" type="text" [formControl]="control"/>
-        <!-- <input > -->
+      
         <kendo-textarea [placeholder]="FieldName" *ngSwitchCase="'textarea'" [formControl]="control" [rows]=4/>
     </ng-container>
 </kendo-label>
-    <div class="error-container" *ngIf="control.touched && control.errors">
+    <!-- <div class="error-container" *ngIf="control.touched && control.errors">
         <div class="error-message" *ngIf="control.errors['required']">
             {{FieldName}} is required
         </div>
@@ -22,7 +22,86 @@
         <div class="error-message" *ngIf="control.errors['email']">
             Please enter a valid email address
         </div>
-    </div>
+        <div class="error-message" *ngIf="control.errors['nameExists']">
+            This name is already registered
+        </div>
+        <div class="error-message" *ngIf="control.errors['phoneExists']">
+            This phone number is already registered
+        </div>
+        <div class="error-message" *ngIf="control.errors['emailExists']">
+            This email is already registered
+        </div>
+        <div class="error-message" *ngIf="control.errors['phoneLength']">
+            {{control.errors['phoneLength']}}
+        </div>
+        <div class="error-message" *ngIf="control.errors['phoneFormat']">
+            {{control.errors['phoneFormat']}}
+        </div>
+    </div> -->
+     
+    <div *ngIf="control.errors && control.touched" class="error-message">
+        <!-- Single error message based on priority -->
+        <ng-container [ngSwitch]="FieldName">
+          <!-- Phone Number errors -->
+          <ng-container *ngSwitchCase="'Phone Number'">
+            <span *ngIf="control.errors?.['required']">
+              Phone Number is required
+            </span>
+            <span *ngIf="!control.errors?.['required'] && control.errors?.['pattern']">
+              Phone Number must contain only digits
+            </span>
+            <span *ngIf="!control.errors?.['required'] && !control.errors?.['pattern'] && control.errors?.['minlength']">
+              Phone Number must be 10 digits
+            </span>
+            <span *ngIf="!control.errors?.['required'] && !control.errors?.['pattern'] && !control.errors?.['minlength'] && control.errors?.['maxlength']">
+              Phone Number cannot exceed 10 digits
+            </span>
+            <span *ngIf="!control.errors?.['required'] && !control.errors?.['pattern'] && !control.errors?.['minlength'] && !control.errors?.['maxlength'] && !control.errors?.['invalidPrefix'] && control.errors?.['phoneExists']">
+              This phone number is already registered
+            </span>
+          </ng-container>
+   
+          <!-- Full Name errors -->
+          <ng-container *ngSwitchCase="'Full Name'">
+            <span *ngIf="control.errors?.['required']">
+              Full Name is required
+            </span>
+            <span *ngIf="!control.errors?.['required'] && control.errors?.['pattern']">
+              Full Name must contain only letters and spaces
+            </span>
+            <span *ngIf="!control.errors?.['required'] && !control.errors?.['pattern'] && control.errors?.['minlength']">
+              Full Name must be at least 3 characters
+            </span>
+            <span *ngIf="!control.errors?.['required'] && !control.errors?.['pattern'] && !control.errors?.['minlength'] && control.errors?.['nameExists']">
+              This name is already registered
+            </span>
+          </ng-container>
+   
+          <!-- Email errors -->
+          <ng-container *ngSwitchCase="'Email'">
+            <span *ngIf="control.errors?.['required']">
+              Email is required
+            </span>
+            <span *ngIf="!control.errors?.['required'] && control.errors?.['email']">
+              Please enter a valid email address
+            </span>
+            <span *ngIf="!control.errors?.['required'] && !control.errors?.['email'] && control.errors?.['emailExists']">
+              This email is already registered
+            </span>
+          </ng-container>
+   
+          <!-- Default field errors -->
+          <ng-container *ngSwitchDefault>
+            <span *ngIf="control.errors?.['required']">
+              {{ FieldName }} is required
+            </span>
+            <span *ngIf="!control.errors?.['required'] && control.errors?.['pattern']">
+              Please enter a valid {{ FieldName }}
+            </span>
+          </ng-container>
+        </ng-container>
+      </div>
+ 
  </div>
  
     
