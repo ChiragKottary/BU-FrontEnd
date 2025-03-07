@@ -90,6 +90,14 @@
             </span>
           </ng-container>
    
+          <!-- Address errors -->
+          <ng-container *ngSwitchCase="'Address'">
+            <span *ngIf="!control.errors?.['required'] && control.errors?.['pattern']">
+              Please enter a valid address
+            </span>
+          </ng-container>
+          
+
           <!-- Default field errors -->
           <ng-container *ngSwitchDefault>
             <span *ngIf="control.errors?.['required']">

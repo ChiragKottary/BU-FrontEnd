@@ -66,7 +66,7 @@ export class RegisterComponent implements OnInit {
       case 'Full Name':
         validators.push(
           Validators.minLength(3),
-          Validators.pattern(/^[a-zA-Z\s]+$/)
+          Validators.pattern(/^\S+[a-zA-Z\s]+$/)
         );
         asyncValidators.push(this.validationService.nameExists());
         break;
@@ -83,6 +83,9 @@ export class RegisterComponent implements OnInit {
       case 'Email':
         validators.push(Validators.email);
         asyncValidators.push(this.validationService.emailExists());
+        break;
+      case 'Address':
+        validators.push(Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9 ,.\-#]+$/));
         break;
     }
 
@@ -104,9 +107,13 @@ export class RegisterComponent implements OnInit {
       if (!allFieldsEmpty) {
         this.formStateService.saveRegisteredMember(formData);
 
-        // Show success notification
+        // Verify storage
+        const isStoredInLocalStorage = this.verifyStorage();
+        const storageStatus = isStoredInLocalStorage ? 'Data stored in localStorage' : 'Warning: Data not stored in localStorage';
+
+        // Show success notification with storage status
         this.notificationService.show({
-          content: 'Registration Successful!',
+          content: `Registration Successful! ${storageStatus}`,
           cssClass: 'success-notification fade-out',
           animation: {
             type: 'fade',
@@ -121,7 +128,7 @@ export class RegisterComponent implements OnInit {
             icon: true
           },
           closable: false,
-          hideAfter: 2000
+          hideAfter: 3000
         });
 
         // Reset form after successful submission
@@ -159,6 +166,11 @@ export class RegisterComponent implements OnInit {
         this.markFormGroupTouched(control);
       }
     });
+  }
+
+  // Add method to verify storage
+  private verifyStorage(): boolean {
+    return this.formStateService.checkStoredData();
   }
 
   // Helper method to get stored data
