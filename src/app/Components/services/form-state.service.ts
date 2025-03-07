@@ -23,6 +23,11 @@ export class FormStateService {
 
   constructor() {
     this.resetToDefault();
+    // Load registered members from localStorage on initialization
+    const storedMembers = localStorage.getItem('registeredMembers');
+    if (storedMembers) {
+      this.registeredMembers = JSON.parse(storedMembers);
+    }
   }
 
   private resetToDefault(): void {
@@ -84,14 +89,26 @@ export class FormStateService {
 
   // Storage methods
   saveRegisteredMember(formData: any): void {
-    this.registeredMembers.push({
+    const newMember = {
       ...formData,
       submittedAt: new Date().toISOString()
-    });
+    };
+
+    // Save to memory
+    this.registeredMembers.push(newMember);
+
+    // Save to localStorage
+    localStorage.setItem('registeredMembers', JSON.stringify(this.registeredMembers));
   }
 
   getRegisteredMembers(): any[] {
     return this.registeredMembers;
+  }
+
+  // Add method to check if data exists in localStorage
+  checkStoredData(): boolean {
+    const storedData = localStorage.getItem('registeredMembers');
+    return storedData !== null && storedData !== '[]';
   }
 
   // Validation methods
