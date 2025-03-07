@@ -5,7 +5,7 @@ import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
   providedIn: 'root'
 })
 export class ValidationService {
-  
+
   private getStoredMembers(): any[] {
     return JSON.parse(localStorage.getItem('registeredMembers') || '[]');
   }
@@ -21,7 +21,7 @@ export class ValidationService {
 
         setTimeout(() => {
           const members = this.getStoredMembers();
-          const exists = members.some(member => 
+          const exists = members.some(member =>
             member['Full Name']?.toLowerCase() === control.value?.toLowerCase()
           );
           resolve(exists ? { nameExists: true } : null);
@@ -35,7 +35,7 @@ export class ValidationService {
       return new Promise(resolve => {
         setTimeout(() => {
           const members = this.getStoredMembers();
-          const exists = members.some(member => 
+          const exists = members.some(member =>
             member['Email']?.toLowerCase() === control.value?.toLowerCase()
           );
           resolve(exists ? { emailExists: true } : null);
@@ -49,7 +49,7 @@ export class ValidationService {
       return new Promise(resolve => {
         setTimeout(() => {
           const members = this.getStoredMembers();
-          const exists = members.some(member => 
+          const exists = members.some(member =>
             member['Phone Number'] === control.value
           );
           resolve(exists ? { phoneExists: true } : null);

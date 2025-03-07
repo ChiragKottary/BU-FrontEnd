@@ -14,7 +14,7 @@ export class ConfigureComponent implements OnInit {
   constructor(
     private router: Router,
     private formStateService: FormStateService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loadGridData();
@@ -47,5 +47,10 @@ export class ConfigureComponent implements OnInit {
   sendRegisterData() {
     this.formStateService.saveChanges();
     this.router.navigate(['/register']);
+  }
+
+  cancelChanges() {
+    this.formStateService.cancelChanges();
+    this.loadGridData();
   }
 }

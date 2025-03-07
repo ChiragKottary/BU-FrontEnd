@@ -51,13 +51,13 @@ export class RegisterComponent implements OnInit {
     this.memberForm = this.fb.group(formControls);
   }
 
-  private getValidators(field: GridItem): { 
-    validators: ValidatorFn[], 
-    asyncValidators: AsyncValidatorFn[] 
+  private getValidators(field: GridItem): {
+    validators: ValidatorFn[],
+    asyncValidators: AsyncValidatorFn[]
   } {
     const validators: ValidatorFn[] = [];
     const asyncValidators: AsyncValidatorFn[] = [];
-    
+
     if (field.required) {
       validators.push(Validators.required);
     }
@@ -71,16 +71,13 @@ export class RegisterComponent implements OnInit {
         asyncValidators.push(this.validationService.nameExists());
         break;
       case 'Phone Number':
-        // Only add maxLength validator first
-        validators.push(Validators.maxLength(10));
-        // Custom validator that only checks pattern if length is valid
-        validators.push((control: AbstractControl) => {
-          if (!control.value) return null;
-          if (control.value.length > 10) return null; // Let maxLength error take precedence
-          
-          const phonePattern = /^[0-9]{10}$/;
-          return phonePattern.test(control.value) ? null : { invalidPhone: true };
-        });
+        validators.push(
+          // Must be exactly 10 digits
+          Validators.minLength(10),
+          Validators.maxLength(10),
+          // Must contain only numbers
+          Validators.pattern(/^[0-9]+$/)
+        );
         asyncValidators.push(this.validationService.phoneExists());
         break;
       case 'Email':
@@ -95,46 +92,33 @@ export class RegisterComponent implements OnInit {
   onSubmit(): void {
     if (this.memberForm.valid) {
       const formData = this.memberForm.value;
-      
+
       // Check if ALL fields are empty
-      const allFieldsEmpty = Object.values(formData).every(value => 
-        value === null || 
-        value === undefined || 
-        value === '' || 
+      const allFieldsEmpty = Object.values(formData).every(value =>
+        value === null ||
+        value === undefined ||
+        value === '' ||
         (typeof value === 'string' && value.trim() === '')
       );
 
       if (!allFieldsEmpty) {
-        // Get existing data from localStorage or initialize empty array
-        const existingData = JSON.parse(localStorage.getItem('registeredMembers') || '[]');
-        
-        // Add new form data with timestamp
-        const newEntry = {
-          ...formData,
-          submittedAt: new Date().toISOString()
-        };
-        
-        // Add to existing data
-        existingData.push(newEntry);
-        
-        // Save back to localStorage
-        localStorage.setItem('registeredMembers', JSON.stringify(existingData));
+        this.formStateService.saveRegisteredMember(formData);
 
         // Show success notification
         this.notificationService.show({
           content: 'Registration Successful!',
           cssClass: 'success-notification fade-out',
-          animation: { 
+          animation: {
             type: 'fade',
             duration: 400
           },
-          position: { 
-            horizontal: 'center', 
-            vertical: 'top' 
+          position: {
+            horizontal: 'center',
+            vertical: 'top'
           },
-          type: { 
-            style: 'success', 
-            icon: true 
+          type: {
+            style: 'success',
+            icon: true
           },
           closable: false,
           hideAfter: 2000
@@ -147,17 +131,17 @@ export class RegisterComponent implements OnInit {
         this.notificationService.show({
           content: 'Please fill at least one field',
           cssClass: 'error-notification fade-out',
-          animation: { 
+          animation: {
             type: 'fade',
             duration: 400
           },
-          position: { 
-            horizontal: 'center', 
-            vertical: 'top' 
+          position: {
+            horizontal: 'center',
+            vertical: 'top'
           },
-          type: { 
-            style: 'error', 
-            icon: true 
+          type: {
+            style: 'error',
+            icon: true
           },
           closable: false,
           hideAfter: 2000
@@ -177,8 +161,8 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  // Helper method to get stored data (optional)
+  // Helper method to get stored data
   getStoredMembers(): any[] {
-    return JSON.parse(localStorage.getItem('registeredMembers') || '[]');
+    return this.formStateService.getRegisteredMembers();
   }
 }
