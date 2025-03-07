@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AsyncValidatorFn, AbstractControl } from '@angular/forms';
 import { NotificationService } from '@progress/kendo-angular-notification';
 import { FormStateService, GridItem } from '../services/form-state.service';
-import { CustomValidators } from './register.validators';
 import { ValidationService } from '../services/validation.service';
 
 @Component({
@@ -66,7 +65,7 @@ export class RegisterComponent implements OnInit {
       case 'Full Name':
         validators.push(
           Validators.minLength(3),
-          Validators.pattern(/^\S+[a-zA-Z\s]+$/)
+          Validators.pattern(/^[a-zA-Z][a-zA-Z ]*$/)
         );
         asyncValidators.push(this.validationService.nameExists());
         break;

@@ -33,6 +33,12 @@ export class ValidationService {
   emailExists(): AsyncValidatorFn {
     return (control: AbstractControl): Promise<{ [key: string]: any } | null> => {
       return new Promise(resolve => {
+        // Skip validation for empty strings
+        if (!control.value || control.value.trim() === '') {
+          resolve(null);
+          return;
+        }
+
         setTimeout(() => {
           const members = this.getStoredMembers();
           const exists = members.some(member =>
@@ -47,6 +53,12 @@ export class ValidationService {
   phoneExists(): AsyncValidatorFn {
     return (control: AbstractControl): Promise<{ [key: string]: any } | null> => {
       return new Promise(resolve => {
+        // Skip validation for empty strings
+        if (!control.value || control.value.trim() === '') {
+          resolve(null);
+          return;
+        }
+
         setTimeout(() => {
           const members = this.getStoredMembers();
           const exists = members.some(member =>
