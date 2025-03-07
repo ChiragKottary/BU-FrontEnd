@@ -22,6 +22,15 @@ export class FormStateService {
   ];
 
   constructor() {
+    // Get initial fields from localStorage or use default if not found
+    const storedFields = localStorage.getItem('initialFields');
+    if (storedFields) {
+      this.initialFields = JSON.parse(storedFields);
+    } else {
+      // If not found in localStorage, save the default initialFields
+      localStorage.setItem('initialFields', JSON.stringify(this.initialFields));
+    }
+    
     this.resetToDefault();
     // Load registered members from localStorage on initialization
     const storedMembers = localStorage.getItem('registeredMembers');
@@ -31,12 +40,7 @@ export class FormStateService {
   }
 
   private resetToDefault(): void {
-    const defaultFields: GridItem[] = [
-      { field: true, fieldName: 'Full Name', required: true },
-      { field: true, fieldName: 'Phone Number', required: true },
-      { field: true, fieldName: 'Email', required: true },
-      { field: true, fieldName: 'Address', required: false }
-    ];
+    const defaultFields = [...this.initialFields]; // Use initialFields from localStorage
     this.formFields = [...defaultFields];
     this.tempFields = JSON.parse(JSON.stringify(defaultFields));
   }
@@ -70,7 +74,10 @@ export class FormStateService {
 
   // Save changes from temporary to permanent state
   saveChanges(): void {
-    this.formFields = JSON.parse(JSON.stringify(this.tempFields));
+    this.formFields = [...this.tempFields];
+    // Save current configuration to localStorage
+    localStorage.setItem('initialFields', JSON.stringify(this.tempFields));
+    
   }
 
   // Cancel changes and reset temporary state
