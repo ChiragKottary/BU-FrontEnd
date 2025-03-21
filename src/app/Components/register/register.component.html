@@ -12,6 +12,7 @@
             [control]="$any(memberForm.get(fieldName))" 
             [FieldName]="fieldName"
             [inputType]="fieldName === 'Address' ? 'textarea' : 'text'"
+            [maxlength]="getMaxLength(fieldName)"
           />
         </div>
       </ng-container>
