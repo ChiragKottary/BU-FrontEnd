@@ -10,4 +10,5 @@ export class ButtonComponent {
   @Input() width: 'auto' | 'full' | 'half' = 'auto';
   @Input() active: boolean = false;
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
+
 }

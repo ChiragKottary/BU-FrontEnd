@@ -19,18 +19,19 @@ export class FormStateService {
     { field: true, fieldName: 'Phone Number', required: false },
     { field: true, fieldName: 'Email', required: true },
     { field: true, fieldName: 'Address', required: true }
+
   ];
 
   constructor() {
-    // Get initial fields from localStorage or use default if not found
+    
     const storedFields = localStorage.getItem('initialFields');
     if (storedFields) {
       this.initialFields = JSON.parse(storedFields);
     } else {
-      // If not found in localStorage, save the default initialFields
+      
       localStorage.setItem('initialFields', JSON.stringify(this.initialFields));
     }
-    
+
     this.resetToDefault();
     // Load registered members from localStorage on initialization
     const storedMembers = localStorage.getItem('registeredMembers');
@@ -45,7 +46,7 @@ export class FormStateService {
     this.tempFields = JSON.parse(JSON.stringify(defaultFields));
   }
 
-  // Methods for temporary state (Configure page)
+
   getTempFields(): GridItem[] {
     return [...this.tempFields];
   }
@@ -75,12 +76,12 @@ export class FormStateService {
   // Save changes from temporary to permanent state
   saveChanges(): void {
     this.formFields = [...this.tempFields];
-    // Save current configuration to localStorage
-    localStorage.setItem('initialFields', JSON.stringify(this.tempFields));
     
+    localStorage.setItem('initialFields', JSON.stringify(this.tempFields));
+
   }
 
-  // Cancel changes and reset temporary state
+  
   cancelChanges(): void {
     this.tempFields = JSON.parse(JSON.stringify(this.formFields));
   }
@@ -118,5 +119,5 @@ export class FormStateService {
     return storedData !== null && storedData !== '[]';
   }
 
- 
+
 } 
