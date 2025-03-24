@@ -26,6 +26,18 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
     this.loadFormFields();
   }
+  private maxLengthConfig: { [key: string]: number } = {
+    'Phone Number': 10,
+    'Full Name': 25,
+    'Email': 50,
+  };
+  private defaultMaxLength: number = 200;
+
+
+  getMaxLength(fieldName: string): number {
+    return this.maxLengthConfig[fieldName] || this.defaultMaxLength;
+  }
+
 
   private loadFormFields(): void {
     this.formFields = this.formStateService.getFormFields();
@@ -71,16 +83,15 @@ export class RegisterComponent implements OnInit {
         break;
       case 'Phone Number':
         validators.push(
-          // Must be exactly 10 digits
+
           Validators.minLength(10),
           Validators.maxLength(10),
-          // Must contain only numbers
           Validators.pattern(/^[0-9]+$/)
         );
         asyncValidators.push(this.validationService.phoneExists());
         break;
       case 'Email':
-        validators.push(Validators.email);
+        validators.push(Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/));
         asyncValidators.push(this.validationService.emailExists());
         break;
       case 'Address':
@@ -172,8 +183,5 @@ export class RegisterComponent implements OnInit {
     return this.formStateService.checkStoredData();
   }
 
-  // Helper method to get stored data
-  getStoredMembers(): any[] {
-    return this.formStateService.getRegisteredMembers();
-  }
+
 }
