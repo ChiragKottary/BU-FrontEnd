@@ -118,25 +118,5 @@ export class FormStateService {
     return storedData !== null && storedData !== '[]';
   }
 
-  // Validation methods
-  checkNameExists(name: string): boolean {
-    if (!name || name.trim() === '') return false;
-    return this.registeredMembers.some(member =>
-      member['Full Name']?.toLowerCase() === name.toLowerCase()
-    );
-  }
-
-  checkPhoneExists(phone: string): boolean {
-    if (!phone || phone.trim() === '') return false;
-    return this.registeredMembers.some(member =>
-      member['Phone Number'] === phone
-    );
-  }
-
-  checkEmailExists(email: string): boolean {
-    if (!email || email.trim() === '') return false;
-    return this.registeredMembers.some(member =>
-      member['Email']?.toLowerCase() === email.toLowerCase()
-    );
-  }
+ 
 } 

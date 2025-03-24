@@ -1,10 +1,17 @@
 <div class="form-field">
     <kendo-label [text]="FieldName">
-    <ng-container [ngSwitch]="inputType">
-        <kendo-textbox [placeholder]="FieldName" *ngSwitchCase="'text'" type="text" [formControl]="control"/>
-      
-        <kendo-textarea [placeholder]="FieldName" *ngSwitchCase="'textarea'" [formControl]="control" [rows]=4/>
-    </ng-container>
+    <div class="input-container">
+        <ng-container [ngSwitch]="inputType">
+            <kendo-textbox [placeholder]="FieldName" *ngSwitchCase="'text'" type="text" [formControl]="control"/>
+            <kendo-textarea [placeholder]="FieldName" *ngSwitchCase="'textarea'" [formControl]="control" [rows]=4/>
+        </ng-container>
+        <div 
+            *ngIf="control.value" 
+            (click)="clearInput()" 
+            class="clear-button">
+            X
+        </div>
+    </div>
 </kendo-label>
     <!-- <div class="error-container" *ngIf="control.touched && control.errors">
         <div class="error-message" *ngIf="control.errors['required']">
@@ -92,6 +99,9 @@
    
           <!-- Address errors -->
           <ng-container *ngSwitchCase="'Address'">
+            <span *ngIf="control.errors?.['required']">
+              Email is required
+            </span>
             <span *ngIf="!control.errors?.['required'] && control.errors?.['pattern']">
               Please enter a valid address
             </span>

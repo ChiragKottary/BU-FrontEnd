@@ -9,13 +9,12 @@
       <ng-container *ngIf="fieldOrder.length > 0; else noFields">
         <div *ngFor="let fieldName of fieldOrder">
           <app-label-input 
-            [control]="$any(memberForm.get(fieldName))" 
+            [control]="$any(memberForm.get(fieldName)) " 
             [FieldName]="fieldName"
             [inputType]="fieldName === 'Address' ? 'textarea' : 'text'"
           />
         </div>
       </ng-container>
-      
 
       <ng-template #noFields>
         <div class="no-fields-message">
@@ -23,8 +22,8 @@
         </div>
       </ng-template>
     </div>
-
-    <div class="button-container" *ngIf="fieldOrder.length > 0">
+    
+    <div class="button-container" *ngIf="fieldOrder.length > 0" >
       <app-button 
         width="full"
         type="submit" 
