@@ -20,7 +20,14 @@
           <kendo-icon name="upload"></kendo-icon>
           Upload Image
         </button>
-        <img *ngIf="selectedImage" [src]="selectedImage" alt="Selected" class="selected-image">
+        <img 
+          *ngIf="selectedImage" 
+          [src]="selectedImage" 
+          alt="Selected" 
+          class="selected-image" 
+          (click)="clearBackground()"
+          title="Click to remove background"
+        >
       </div>
     </div>
   </div>

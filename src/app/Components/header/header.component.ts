@@ -37,4 +37,12 @@ export class HeaderComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
+
+  clearBackground(): void {
+    this.selectedImage = null;
+    this.backgroundService.setBackgroundImage('');
+    localStorage.removeItem('headerImage');
+    // Force app component to update
+    window.dispatchEvent(new Event('backgroundImageChanged'));
+  }
 }

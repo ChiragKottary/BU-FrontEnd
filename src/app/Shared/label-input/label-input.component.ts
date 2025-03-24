@@ -17,9 +17,10 @@ export class LabelInputComponent {
 
   @Input() maxlength!: number;
   constructor() {
+ 
+
+  }
   clearInput(): void {
     this.control.setValue('');
   }
-
-
 }

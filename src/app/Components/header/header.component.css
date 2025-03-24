@@ -46,6 +46,13 @@
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #e5e7eb;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .selected-image:hover {
+    border-color: #dc2626;
+    transform: scale(1.1);
   }
 
   .header-btn {
