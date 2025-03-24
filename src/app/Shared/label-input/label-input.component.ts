@@ -16,10 +16,8 @@ export class LabelInputComponent {
   @Input() inputType: 'text' | 'textarea' = 'text';
 
   @Input() maxlength!: number;
-  constructor() {
+  constructor() {}
   clearInput(): void {
     this.control.setValue('');
   }
-
-
 }
