@@ -7,7 +7,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'configure', component: ConfigureComponent },
   { path: '', redirectTo: '/register', pathMatch: 'full' },
-  { path: '**', redirectTo: '/register' }  // Wildcard route for invalid URLs
+  { path: '**', redirectTo: '/register' }  
 ];
 
 @NgModule({

@@ -4,6 +4,24 @@
     <div class="button-group">
       <app-button btnName="Register" routerLink="/register" [active]="isActive('/register')"/>
       <app-button btnName="Configure" routerLink="/configure" [active]="isActive('/configure')"/>
+      <div class="image-upload-container">
+        <input 
+          type="file" 
+          accept="image/*" 
+          (change)="onImageSelected($event)" 
+          #fileInput 
+          style="display: none"
+        >
+        <button 
+          kendoButton 
+          (click)="fileInput.click()" 
+          class="upload-btn"
+          fillMode="flat">
+          <kendo-icon name="upload"></kendo-icon>
+          Upload Image
+        </button>
+        <img *ngIf="selectedImage" [src]="selectedImage" alt="Selected" class="selected-image">
+      </div>
     </div>
   </div>
 </header>

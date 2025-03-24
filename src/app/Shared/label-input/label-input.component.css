@@ -2,6 +2,47 @@
     margin-bottom: 1rem;
 }
 
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.clear-button {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: #ec5353;
+    transition: all 0.2s ease;
+}
+
+.clear-button:hover {
+    background-color: #e5e7eb;
+}
+
+.clear-icon {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.clear-button:hover .clear-icon {
+    color: #374151;
+}
+
+/* .clear-button:active {
+    background-color: rgba(0, 0, 0, 0.1);
+} */
+
 :host ::ng-deep .k-label {
     font-weight: 500;
     font-size: 0.9rem;
